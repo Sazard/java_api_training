@@ -51,8 +51,10 @@ public class StartHandler implements HttpHandler {
 
         System.out.println("success");
         */
-        String body = builder.toString();
+        jp.message = "You've reached me";
+        jp.id = "0";
 
+        String body = mapper.writeValueAsString(jp);
         exchange.sendResponseHeaders(202, body.length());
 
         try (OutputStream os = exchange.getResponseBody()) {
