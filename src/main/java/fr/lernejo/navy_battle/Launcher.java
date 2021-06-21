@@ -18,16 +18,13 @@ public class Launcher {
             HttpServer serv = HttpServer.create(new InetSocketAddress(arg), 0);
             serv.setExecutor(Executors.newSingleThreadExecutor());
             serv.createContext("/ping", new RequestHandler());
+            serv.createContext("/api/game/start", new StartHandler());
             serv.start();
 
         }
         catch (java.io.IOException e){
             System.err.println("java.io.IOException " + e.getMessage());
         }
-        /*
-        catch (java.net.BindException a) {
-            System.err.println("java.net.BindException " + a.getMessage());
-        }*/
 
     }
 }
