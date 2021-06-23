@@ -1,24 +1,22 @@
 package fr.lernejo.navy_battle;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-
 public class StartHandler implements HttpHandler {
-    /*
-    puis tu verifie que les donnees qu on t envois sont bonne
-    tu creer ton json de reponse
-    puis ton handler le transforme en requette
-    le send*/
+
+    private Port port;
+
+    public StartHandler(Port port) {
+        this.port = port;
+    }
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (!exchange.getRequestMethod().equals("POST")) {
@@ -43,16 +41,29 @@ public class StartHandler implements HttpHandler {
             exchange.sendResponseHeaders(400, body.length());
             throw new IOException();
         }
-        /*
-        System.out.println("Id found : " + jp.id);
-        System.out.println("Message found : "+jp.message);
-        System.out.println("Url found : " +jp.url);
 
+        if (jp.id.isBlank()){
+            System.out.println("Error wrong JSon id");
+            String body = "Bad request";
+            exchange.sendResponseHeaders(400, body.length());
+            throw new IOException();
+        }
+        if (jp.message.isBlank()){
+            System.out.println("Error wrong JSon message");
+            String body = "Bad request";
+            exchange.sendResponseHeaders(400, body.length());
+            throw new IOException();
+        }
+        if (jp.url.isBlank()){
+            System.out.println("Error wrong JSon url");
+            String body = "Bad request";
+            exchange.sendResponseHeaders(400, body.length());
+            throw new IOException();
+        }
 
-        System.out.println("success");
-        */
-        jp.message = "You've reached me";
-        jp.id = "0";
+        jp.message = "May the best code win";
+        jp.id = "2aca7611-0ae4-49f3-bf63-75bef4769028";
+        jp.url = "http://localhost:"+port.port;
 
         String body = mapper.writeValueAsString(jp);
         exchange.sendResponseHeaders(202, body.length());
