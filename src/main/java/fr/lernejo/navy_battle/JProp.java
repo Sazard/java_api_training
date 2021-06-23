@@ -7,4 +7,9 @@ public class JProp {
 
     public JProp(){
     }
+
+    @Override
+    public String toString(){
+        return id + "\n" + url + "\n" + message;
+    }
 }

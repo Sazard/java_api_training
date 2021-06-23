@@ -6,6 +6,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -60,10 +61,12 @@ public class StartHandler implements HttpHandler {
             exchange.sendResponseHeaders(400, body.length());
             throw new IOException();
         }
-
+        UUID rd = UUID.randomUUID();
         jp.message = "May the best code win";
-        jp.id = "2aca7611-0ae4-49f3-bf63-75bef4769028";
+        jp.id = rd.toString();
         jp.url = "http://localhost:"+port.port;
+
+        System.out.println(jp);
 
         String body = mapper.writeValueAsString(jp);
         exchange.sendResponseHeaders(202, body.length());
