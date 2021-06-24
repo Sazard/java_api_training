@@ -41,7 +41,7 @@ public class StartHandler implements HttpHandler {
             exchange.sendResponseHeaders(400, "Bad request".length());
             throw new IOException();
         }
-        String body = "{\"id\":\"1\", \"url\":\"http://localhost:".concat(port.toString()).concat("\", \"message\":\"May the best code win\"}");
+        String body = "{\"id\":\"2\", \"url\":\"http://localhost:".concat(port.toString()).concat("\", \"message\":\"May the best code win\"}");
         exchange.sendResponseHeaders(202, body.length());
 
         try (OutputStream os = exchange.getResponseBody()) {

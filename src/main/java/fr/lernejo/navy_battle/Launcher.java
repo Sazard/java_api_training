@@ -10,24 +10,17 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 
 public class Launcher {
-    public static void main(String[] args) {
-        try {
-            int arg = Integer.parseInt(args[0]);
-            String port = String.valueOf(arg);
 
-            if (args.length == 2) {
-                OtherInstance oth = new OtherInstance();
-                oth.other(String.valueOf(args[0]), args[1].toString());
-            }
-            else {
-                StartServer st = new StartServer(arg);
-                //add serv.stop
-            }
+    public static void main(String[] args) throws IOException, InterruptedException {
+        int arg = Integer.parseInt(args[0]);
+        String port = String.valueOf(arg);
 
+        if (args.length == 2) {
+            OtherInstance oth = new OtherInstance();
+            oth.other(String.valueOf(args[0]), args[1].toString());
         }
-        catch (IOException | InterruptedException e){
-            System.err.println("java.io.IOException " + e.getMessage());
+        else {
+            StartServer st = new StartServer(arg);
         }
-
     }
 }
