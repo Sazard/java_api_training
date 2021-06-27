@@ -16,6 +16,6 @@ public class OtherInstance {
             .setHeader("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + arg + "\", \"message\":\"hello\"}"))
             .build();
-        HttpResponse response = cl.send(requetePost, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = cl.send(requetePost, HttpResponse.BodyHandlers.ofString());
     }
 }

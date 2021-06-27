@@ -15,10 +15,10 @@ class RequestHandlerTest {
 
     @Test
     void ping() throws IOException, InterruptedException {
-        StartServer st = new StartServer(9876);
+        StartServer st = new StartServer(1234);
         HttpClient cl = HttpClient.newHttpClient();
 
-        HttpRequest rq = HttpRequest.newBuilder().uri(URI.create("http://localhost:9876/ping")).GET().build();
+        HttpRequest rq = HttpRequest.newBuilder().uri(URI.create("http://localhost:1234/ping")).GET().build();
         HttpResponse rp = cl.send(rq, HttpResponse.BodyHandlers.ofString());
 
         Assertions.assertEquals("OK", rp.body());

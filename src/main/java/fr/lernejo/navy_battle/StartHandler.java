@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,35 +19,37 @@ public class StartHandler implements HttpHandler {
         if (!exchange.getRequestMethod().equals("POST")) {
             throw new IOException();
         }
-        InputStream s = exchange.getRequestBody();
-        ObjectMapper mapper = new ObjectMapper();
-        JProp jp;
+        JProp jp = fill(null, exchange);
 
+        condition(jp, exchange);
+        String body = "{\"id\":\"2\", \"url\":\"http://localhost:".concat(port).concat("\", \"message\":\"May the best code win\"}");
+        exchange.sendResponseHeaders(202, body.length());
+        OutputStream os = exchange.getResponseBody();
+        os.write(body.getBytes());
+    }
+
+    private void condition(JProp jp, HttpExchange exchange) throws IOException {
+        if (jp.id.isBlank() | jp.message.isBlank() | jp.url.isBlank()){
+            String body = "Bad Request";
+            exchange.sendResponseHeaders(400, body.length());
+            throw new IOException();
+        }
+    }
+
+    private JProp fill(JProp jp, HttpExchange exchange) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
         int c;
         StringBuilder builder = new StringBuilder();
         while ((c = exchange.getRequestBody().read()) > 0) {
             builder.append((char) c);
         }
-
         try {
             jp = mapper.readValue(builder.toString(), JProp.class);
         }
         catch (IOException ie) {
-            exchange.sendResponseHeaders(400, "Bad request".length());
-            throw new IOException();
+            String body = "Bad request";
+            exchange.sendResponseHeaders(400, body.length());
         }
-        if (jp.id.isBlank() | jp.message.isBlank() | jp.url.isBlank()){
-            exchange.sendResponseHeaders(400, "Bad request".length());
-            throw new IOException();
-        }
-        String body = "{\"id\":\"2\", \"url\":\"http://localhost:".concat(port.toString()).concat("\", \"message\":\"May the best code win\"}");
-        exchange.sendResponseHeaders(202, body.length());
-
-        try (OutputStream os = exchange.getResponseBody()) {
-            os.write(body.getBytes());
-        }
-        catch (IOException ex) {
-            System.err.println("IOException "+ ex.getMessage());
-        }
+        return jp;
     }
 }
