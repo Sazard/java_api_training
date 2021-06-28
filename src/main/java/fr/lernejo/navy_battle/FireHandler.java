@@ -18,6 +18,7 @@ public class FireHandler implements HttpHandler {
         if (!exchange.getRequestMethod().equals("GET")) {
             throw new IOException();
         }
+        // .query
         String cell = exchange.getRequestURI().toString().substring(exchange.getRequestURI().toString().indexOf("?cell=") + 6);
         if (cell.charAt(0) == '\0' | (int) cell.charAt(0) > (int) 'J' | (int) cell.charAt(0) < (int) 'A' | Integer.parseInt(cell.substring(1)) > 10 | Integer.parseInt(cell.substring(1)) < 0) {
             String body = "Bad Request";

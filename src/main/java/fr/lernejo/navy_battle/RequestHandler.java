@@ -12,11 +12,7 @@ public class RequestHandler implements HttpHandler {
         String body = "OK";
         exchange.sendResponseHeaders(200, body.length());
 
-        try (OutputStream os = exchange.getResponseBody()) {
-            os.write(body.getBytes());
-        }
-        catch (IOException ex) {
-            System.err.println("IOException "+ ex.getMessage());
-        }
+        OutputStream os = exchange.getResponseBody();
+        os.write(body.getBytes());
     }
 }

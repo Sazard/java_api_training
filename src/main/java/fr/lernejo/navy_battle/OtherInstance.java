@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.UUID;
 
 public class OtherInstance {
 
@@ -14,7 +15,7 @@ public class OtherInstance {
             .uri(URI.create(argUrl + "/api/game/start"))
             .setHeader("Accept", "application/json")
             .setHeader("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"1\", \"url\":\"http://localhost:" + arg + "\", \"message\":\"hello\"}"))
+            .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"" + UUID.randomUUID() + "\", \"url\":\"http://localhost:" + arg + "\", \"message\":\"hello\"}"))
             .build();
         HttpResponse<String> response = cl.send(requetePost, HttpResponse.BodyHandlers.ofString());
     }
