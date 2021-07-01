@@ -28,8 +28,7 @@ public class StartHandler implements HttpHandler {
         JProp jp = fill(exchange);
 
         condition(jp, exchange);
-        UUID uid = UUID.randomUUID();
-        String body = "{\"id\":\"" + UUID.randomUUID() + "\", \"url\":\"http://localhost:".concat(port).concat("\", \"message\":\"May the best code win\"}");
+        String body = "{\n\t\"id\":\"" + UUID.randomUUID() + ("\",\n\t" + " \"url\":\"http://localhost:").concat(port).concat("\",\n\t \"message\":\"May the best code win\"\n}");
         exchange.sendResponseHeaders(202, body.length());
         OutputStream os = exchange.getResponseBody();
         os.write(body.getBytes());

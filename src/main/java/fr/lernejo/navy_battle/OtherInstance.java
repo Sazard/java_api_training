@@ -18,5 +18,6 @@ public class OtherInstance {
             .POST(HttpRequest.BodyPublishers.ofString("{\"id\":\"" + UUID.randomUUID() + "\", \"url\":\"http://localhost:" + arg + "\", \"message\":\"hello\"}"))
             .build();
         HttpResponse<String> response = cl.send(requetePost, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
     }
 }
