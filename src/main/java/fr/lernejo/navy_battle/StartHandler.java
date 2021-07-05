@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,10 +29,18 @@ public class StartHandler implements HttpHandler {
         JProp jp = fill(exchange);
 
         condition(jp, exchange);
+        String port_other = String.valueOf(URI.create(jp.url).getPort());
+
         String body = "{\n\t\"id\":\"" + UUID.randomUUID() + ("\",\n\t" + " \"url\":\"http://localhost:").concat(port).concat("\",\n\t \"message\":\"May the best code win\"\n}");
         exchange.sendResponseHeaders(202, body.length());
         OutputStream os = exchange.getResponseBody();
         os.write(body.getBytes());
+        FirstFire ff = new FirstFire(port_other);
+        try {
+            ff.ff();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void condition(JProp jp, HttpExchange exchange) throws IOException {
