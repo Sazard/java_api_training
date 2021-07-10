@@ -27,6 +27,7 @@ public class FireHandler implements HttpHandler {
             os.write(body.getBytes());
         }
         String body = "{\"consequence\":\"sunk\", \"shipLeft\":\"true\"}";
+        exchange.getResponseHeaders().set("Accept", "application/json");
         exchange.getResponseHeaders().set("Content-Type", "application/json");
         exchange.sendResponseHeaders(202, body.length());
         OutputStream os = exchange.getResponseBody();
