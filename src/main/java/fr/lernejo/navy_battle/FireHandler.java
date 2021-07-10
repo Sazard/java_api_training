@@ -7,11 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class FireHandler implements HttpHandler {
-    /*
-    private final String cell;
-    public FireHandler(String cell) {
-        this.cell = cell;
-    }*/
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

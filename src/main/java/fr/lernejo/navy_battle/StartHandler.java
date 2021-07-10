@@ -20,22 +20,17 @@ public class StartHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if (!exchange.getRequestMethod().equals("POST")) {
-            String body = "Bad Request";
-            exchange.sendResponseHeaders(400, body.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(body.getBytes());
-            throw new IOException();
+            bad_requ(exchange);
         }
         JProp jp = fill(exchange);
 
         condition(jp, exchange);
-        String port_other = String.valueOf(URI.create(jp.url).getPort());
 
         String body = "{\n\t\"id\":\"" + UUID.randomUUID() + ("\",\n\t" + " \"url\":\"http://localhost:").concat(port).concat("\",\n\t \"message\":\"May the best code win\"\n}");
         exchange.sendResponseHeaders(202, body.length());
         OutputStream os = exchange.getResponseBody();
         os.write(body.getBytes());
-        FirstFire ff = new FirstFire(port_other);
+        FirstFire ff = new FirstFire(String.valueOf(URI.create(jp.url).getPort()));
         try {
             ff.ff();
         } catch (InterruptedException e) {
@@ -45,11 +40,7 @@ public class StartHandler implements HttpHandler {
 
     private void condition(JProp jp, HttpExchange exchange) throws IOException {
         if (jp.id.isBlank() | jp.message.isBlank() | jp.url.isBlank()){
-            String body = "Bad Request";
-            exchange.sendResponseHeaders(400, body.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(body.getBytes());
-            throw new IOException();
+            bad_requ(exchange);
         }
     }
 
@@ -65,12 +56,16 @@ public class StartHandler implements HttpHandler {
             jp = mapper.readValue(builder.toString(), JProp.class);
         }
         catch (IOException ie) {
-            System.out.println(ie.getMessage());
-            String body = "Bad request";
-            exchange.sendResponseHeaders(400, body.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(body.getBytes());
+            bad_requ(exchange);
         }
         return jp;
+    }
+
+    private void bad_requ(HttpExchange exchange) throws IOException {
+        String body = "Bad Request";
+        exchange.sendResponseHeaders(400, body.length());
+        OutputStream os = exchange.getResponseBody();
+        os.write(body.getBytes());
+        throw new IOException();
     }
 }

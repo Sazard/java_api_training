@@ -20,8 +20,8 @@ class LauncherPingTest {
             .GET().build();
 
         HttpResponse rp = cl.send(rq, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(rp.body(), "OK");
-        Assertions.assertEquals(rp.statusCode(), 200);
+        Assertions.assertEquals( "OK", rp.body());
+        Assertions.assertEquals(200, rp.statusCode());
         st.serv.stop(0);
     }
 
