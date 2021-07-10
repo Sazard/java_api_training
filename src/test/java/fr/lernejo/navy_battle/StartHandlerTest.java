@@ -30,27 +30,4 @@ class StartHandlerTest {
 
         st.serv.stop(0);
     }
-    /*
-    @Test
-    void FireTest() throws IOException, InterruptedException {
-        StartServer st = new StartServer(5678);
-        HttpClient cl = HttpClient.newHttpClient();
-        String body = "{\"id\": \"1\", \"url\": \"http://localhost:5678\", \"message\": \"I will crush you!\" }";
-        System.out.println("test");
-
-        HttpRequest rq = HttpRequest.newBuilder().uri(URI.create("http://localhost:5678/api/game/start"))
-            .POST(HttpRequest.BodyPublishers.ofString(body)).build();
-        cl.send(rq, HttpResponse.BodyHandlers.ofString());
-        System.out.println("test");
-
-        String url = "http://localhost:".concat("5678").concat("/api/game/fire?cell=E5");
-        HttpRequest req = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
-        HttpResponse<String> response = cl.send(req, HttpResponse.BodyHandlers.ofString());
-        System.out.println("test");
-        String body_rep = "{\"consequence\":\"sunk\", \"shipLeft\":\"true\"}";
-        Assertions.assertEquals(202, response.statusCode());
-        Assertions.assertEquals(body_rep, response.body());
-        st.serv.stop(0);
-    }*/
-
 }

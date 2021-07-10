@@ -19,7 +19,7 @@ public class FirstFire {
     public void ff() throws IOException, InterruptedException {
         HttpClient cl = HttpClient.newHttpClient();
         String url = "http://localhost:".concat(port).concat("/api/game/fire?cell=E5");
-        HttpRequest req = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        HttpRequest req = HttpRequest.newBuilder().GET().uri(URI.create(url)).setHeader("Accept", "application/json").build();
         HttpResponse<String> response = cl.send(req, HttpResponse.BodyHandlers.ofString());
         System.out.println(response.body());
     }

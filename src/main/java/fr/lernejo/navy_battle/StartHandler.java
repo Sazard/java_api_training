@@ -26,16 +26,20 @@ public class StartHandler implements HttpHandler {
 
         condition(jp, exchange);
 
-        String body = "{\n\t\"id\":\"" + UUID.randomUUID() + ("\",\n\t" + " \"url\":\"http://localhost:").concat(port).concat("\",\n\t \"message\":\"May the best code win\"\n}");
-        exchange.sendResponseHeaders(202, body.length());
-        OutputStream os = exchange.getResponseBody();
-        os.write(body.getBytes());
+        resp(exchange);
         FirstFire ff = new FirstFire(String.valueOf(URI.create(jp.url).getPort()));
         try {
             ff.ff();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void resp(HttpExchange exchange) throws IOException {
+        String body = "{\n\t\"id\":\"" + UUID.randomUUID() + ("\",\n\t" + " \"url\":\"http://localhost:").concat(port).concat("\",\n\t \"message\":\"May the best code win\"\n}");
+        exchange.sendResponseHeaders(202, body.length());
+        OutputStream os = exchange.getResponseBody();
+        os.write(body.getBytes());
     }
 
     private void condition(JProp jp, HttpExchange exchange) throws IOException {
